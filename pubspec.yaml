@@ -18,5 +18,5 @@ flutter:
     pluginClass: SslPinningPlugin
 
 environment:
-  sdk: '^1.9.0'
+  sdk: ">=1.19.0 <2.0.0"
   flutter: '^0.4.4'
