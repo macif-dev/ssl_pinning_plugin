@@ -1,0 +1,22 @@
+name: ssl_pinning_plugin
+description: SSL Pinning for request HTTP.
+version: 0.0.1
+author: Macif <contact.appmobile@macif.fr>
+homepage: https://github.com/macif-dev/ssl_pinning_plugin
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+# For information on the generic Dart part of this file, see the
+# following page: https://www.dartlang.org/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+  plugin:
+    androidPackage: com.macif.plugin.sslpinningplugin
+    pluginClass: SslPinningPlugin
+
+environment:
+  sdk: '^1.9.0'
+  flutter: '^0.4.4'
