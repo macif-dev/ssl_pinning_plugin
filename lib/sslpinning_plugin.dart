@@ -17,12 +17,12 @@ class SslPinningPlugin {
     _channel.setMethodCallHandler(_platformCallHandler);
   }
 
-  static Future<String> check({ String serverURL, Map<String, String> headerHttp, SHA sha, List<String> allowedSHAFingerprint, int timeout }) async {
+  static Future<String> check({ String serverURL, Map<String, String> headerHttp, SHA sha, List<String> allowedSHAFingerprints, int timeout }) async {
     final Map<String, dynamic> params = <String, dynamic>{
       "url" : serverURL,
       "headers" : headerHttp,
       "type": sha.toString().split(".").last,
-      "fingerprints" : allowedSHAFingerprint,
+      "fingerprints" : allowedSHAFingerprints,
       "timeout" : timeout
     };
     String resp = await _channel.invokeMethod('check', params);

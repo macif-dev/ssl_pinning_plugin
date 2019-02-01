@@ -18,12 +18,12 @@ For help on editing plugin code, view the [documentation](https://flutter.io/pla
 - serveurUrl : `String`
 - headerHttp : `Map<String, String>`
 - sha : `SHA` enum [SHA.SHA1 || SHA.SHA256]
-- allowedSHAFingerprint : `List<String>`
+- allowedSHAFingerprints : `List<String>`
 - timeout : `int`
 
 ###Usage :
 
-`await SslPinningPlugin.check(serverURL: url, headerHttp : new Map(), sha: SHA.SHA1, allowedSHAFingerprint: new List<String>, timeout : 50);`
+`await SslPinningPlugin.check(serverURL: url, headerHttp : new Map(), sha: SHA.SHA1, allowedSHAFingerprints: new List<String>, timeout : 50);`
 
 ###Return :
 

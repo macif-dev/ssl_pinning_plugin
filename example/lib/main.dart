@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
       String checkMsg = await SslPinningPlugin.check(serverURL: url,
           headerHttp: headerHttp,
           sha: sha,
-          allowedSHAFingerprint: allowedShA1FingerprintList,
+          allowedSHAFingerprints: allowedShA1FingerprintList,
           timeout: timeout);
 
       // If the widget was removed from the tree while the asynchronous platform
