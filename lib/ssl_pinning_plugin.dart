@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
+
+enum SHA {SHA1, SHA256}
+
 class SslPinningPlugin {
     static const MethodChannel _channel = const MethodChannel('ssl_pinning_plugin');
 
@@ -14,11 +17,12 @@ class SslPinningPlugin {
         _channel.setMethodCallHandler(_platformCallHandler);
     }
 
-    static Future<String> check({ String serverURL, Map<String, String> headerHttp, List<String> allowedSHA1Fingerprint, int timeout }) async {
+    static Future<String> check({ String serverURL, Map<String, String> headerHttp, SHA sha, List<String> allowedSHAFingerprint, int timeout }) async {
         final Map<String, dynamic> params = <String, dynamic>{
             "url" : serverURL,
             "headers" : headerHttp,
-            "fingerprints" : allowedSHA1Fingerprint,
+            "type": sha.toString().split(".").last,
+            "fingerprints" : allowedSHAFingerprint,
             "timeout" : timeout
         };
         String resp = await _channel.invokeMethod('check', params);

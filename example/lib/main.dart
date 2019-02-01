@@ -12,8 +12,9 @@ class MyApp extends StatefulWidget {
 class _PiningSslData {
   String serverURL = '';
   Map<String, String> headerHttp = new Map();
-  String allowedSHA1Fingerprint = '';
+  String allowedSHAFingerprint = '';
   int timeout = 0;
+  SHA sha;
 }
 
 class _MyAppState extends State<MyApp> {
@@ -27,7 +28,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
-  check(String url, String fingerprint, Map<String, String> headerHttp, int timeout) async {
+  check(String url, String fingerprint, SHA sha, Map<String, String> headerHttp, int timeout) async {
 
     List<String> allowedShA1FingerprintList = new List();
     allowedShA1FingerprintList.add(fingerprint);
@@ -36,7 +37,8 @@ class _MyAppState extends State<MyApp> {
       // Platform messages may fail, so we use a try/catch PlatformException.
       String checkMsg = await SslPinningPlugin.check(serverURL: url,
           headerHttp: headerHttp,
-          allowedSHA1Fingerprint: allowedShA1FingerprintList,
+          sha: sha,
+          allowedSHAFingerprint: allowedShA1FingerprintList,
           timeout: timeout);
 
       // If the widget was removed from the tree while the asynchronous platform
@@ -71,7 +73,7 @@ class _MyAppState extends State<MyApp> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save(); // Save our form now.
 
-      this.check(_data.serverURL, _data.allowedSHA1Fingerprint, _data.headerHttp, _data.timeout);
+      this.check(_data.serverURL, _data.allowedSHAFingerprint, _data.sha, _data.headerHttp, _data.timeout);
     }
   }
 
@@ -86,15 +88,15 @@ class _MyAppState extends State<MyApp> {
         body:
           new Builder(builder: (BuildContext context) {
             this.scaffoldContext = context;
-            return new Container(
-              padding: new EdgeInsets.all(20.0),
-              child: new Form(
+            return Container(
+              padding: EdgeInsets.all(20.0),
+              child: Form(
                 key: this._formKey,
                 child: new ListView(
                 children: <Widget>[
-                  new TextFormField(
+                  TextFormField(
                     keyboardType: TextInputType.url,
-                    decoration: new InputDecoration(
+                    decoration: InputDecoration(
                       hintText: 'https://yourdomain.com',
                       labelText: 'URL'
                     ),
@@ -107,9 +109,16 @@ class _MyAppState extends State<MyApp> {
                       this._data.serverURL = value;
                     }
                   ),
-                  new TextFormField(
+                  DropdownButton(
+                      items: [DropdownMenuItem(child: Text(SHA.SHA1.toString()), value: SHA.SHA1,), DropdownMenuItem(child: Text(SHA.SHA256.toString()), value: SHA.SHA256,)],
+                      value: _data.sha,
+                      onChanged: (SHA val){
+                          this._data.sha = val;
+                      },
+                  ),
+                  TextFormField(
                     keyboardType: TextInputType.text,
-                    decoration: new InputDecoration(
+                    decoration: InputDecoration(
                        hintText: 'OO OO OO OO OO OO OO OO OO OO',
                        labelText: 'Fingerprint'
                     ),
@@ -119,13 +128,13 @@ class _MyAppState extends State<MyApp> {
                       }
                     },
                     onSaved: (String value) {
-                      this._data.allowedSHA1Fingerprint = value;
+                      this._data.allowedSHAFingerprint = value;
                     }
                   ),
-                  new TextFormField(
+                  TextFormField(
                       keyboardType: TextInputType.number,
                       initialValue: '60',
-                      decoration: new InputDecoration(
+                      decoration: InputDecoration(
                           hintText: '60',
                           labelText: 'Timeout'
                       ),
@@ -138,18 +147,18 @@ class _MyAppState extends State<MyApp> {
                         this._data.timeout = int.parse(value);
                       }
                   ),
-                  new Container(
-                    child: new RaisedButton(
-                      child: new Text(
+                  Container(
+                    child: RaisedButton(
+                      child: Text(
                         'Check',
-                        style: new TextStyle(
+                        style: TextStyle(
                           color: Colors.white
                         ),
                       ),
                       onPressed: () => submit(),
                       color: Colors.blue,
                     ),
-                    margin: new EdgeInsets.only(
+                    margin: EdgeInsets.only(
                       top: 20.0
                     ),
                   )

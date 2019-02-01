@@ -1,5 +1,7 @@
 package com.macif.plugin.sslpinningplugin
 
+import android.util.Log;
+
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
@@ -53,10 +55,9 @@ class SslPinningPlugin() : MethodCallHandler {
         val allowedFingerprints: List<String> = arguments.get("fingerprints") as List<String>
         val httpHeaderArgs: Map<String, String> = arguments.get("headers") as Map<String, String>
         val timeout: Int = arguments.get("timeout") as Int
+        val type: String = arguments.get("type") as String
 
-        //result.success(this.checkConnexion(serverURL, allowedFingerprints, httpHeaderArgs, timeout))
-
-        if (this.checkConnexion(serverURL, allowedFingerprints, httpHeaderArgs, timeout)) {
+        if (this.checkConnexion(serverURL, allowedFingerprints, httpHeaderArgs, timeout, type)) {
             result.success("CONNECTION_SECURE")
         } else {
             result.error("CONNECTION_NOT_SECURE", "Connection is not secure", "Fingerprint doesn't match")
@@ -64,13 +65,13 @@ class SslPinningPlugin() : MethodCallHandler {
 
     }
 
-    fun checkConnexion(serverURL: String, allowedFingerprints: List<String>, httpHeaderArgs: Map<String, String>, timeout: Int): Boolean {
-        val sha1: String = this.getFingerprint(serverURL, timeout, httpHeaderArgs)
-        return allowedFingerprints.map { fp -> fp.toUpperCase().replace("\\s".toRegex(), "") }.contains(sha1)
+    fun checkConnexion(serverURL: String, allowedFingerprints: List<String>, httpHeaderArgs: Map<String, String>, timeout: Int, type: String): Boolean {
+        val sha: String = this.getFingerprint(serverURL, timeout, httpHeaderArgs, type)
+        return allowedFingerprints.map { fp -> fp.toUpperCase().replace("\\s".toRegex(), "") }.contains(sha)
     }
 
     @Throws(IOException::class, NoSuchAlgorithmException::class, CertificateException::class, CertificateEncodingException::class)
-    private fun getFingerprint(httpsURL: String, connectTimeout: Int, httpHeaderArgs: Map<String, String>): String {
+    private fun getFingerprint(httpsURL: String, connectTimeout: Int, httpHeaderArgs: Map<String, String>, type: String): String {
 
         val url = URL(httpsURL)
         val httpClient: HttpsURLConnection = url.openConnection() as HttpsURLConnection
@@ -80,7 +81,7 @@ class SslPinningPlugin() : MethodCallHandler {
 
         val cert: Certificate = httpClient.getServerCertificates()[0] as Certificate
 
-        return this.hashString("SHA1", cert.getEncoded())
+        return this.hashString(type, cert.getEncoded())
 
     }
 
