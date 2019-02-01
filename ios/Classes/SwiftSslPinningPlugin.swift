@@ -40,7 +40,8 @@ public class SwiftSslPinningPlugin: NSObject, FlutterPlugin {
         // Récupération des params
         guard let _urlString = args["url"] as? String,
               let _headers = args["headers"] as? Dictionary<String, String>,
-              let _fingerprints = args["fingerprints"] as? Array<String>
+              let _fingerprints = args["fingerprints"] as? Array<String>,
+              let _type = args["type"] as? String
         else {
             self.sendResponse(result: FlutterError(code: "Params incorrect", message: "Les params sont incorrect", details: nil))
             return
@@ -79,8 +80,11 @@ public class SwiftSslPinningPlugin: NSObject, FlutterPlugin {
             }
 
             let _serverCertData = SecCertificateCopyData(_serverCert) as Data
+            var _serverCertSha = _serverCertData.sha256().toHexString()
 
-            let _serverCertSha1 = _serverCertData.sha1().toHexString()
+            if(_type == "SHA1"){
+                _serverCertSha = _serverCertData.sha1().toHexString()
+            }
 
             var isSecure = false
             if var _fp = self.fingerprints {
@@ -91,7 +95,7 @@ public class SwiftSslPinningPlugin: NSObject, FlutterPlugin {
 
                 // Compare les strings
                 isSecure = _fp.contains(where: { (value) -> Bool in
-                    value.caseInsensitiveCompare(_serverCertSha1) == .orderedSame
+                    value.caseInsensitiveCompare(_serverCertSha) == .orderedSame
                 })
             }
 
@@ -106,6 +110,5 @@ public class SwiftSslPinningPlugin: NSObject, FlutterPlugin {
         }
 
     }
-
 
 }

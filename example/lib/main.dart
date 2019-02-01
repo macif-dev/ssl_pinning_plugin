@@ -112,8 +112,11 @@ class _MyAppState extends State<MyApp> {
                   DropdownButton(
                       items: [DropdownMenuItem(child: Text(SHA.SHA1.toString()), value: SHA.SHA1,), DropdownMenuItem(child: Text(SHA.SHA256.toString()), value: SHA.SHA256,)],
                       value: _data.sha,
+                      isExpanded: true,
                       onChanged: (SHA val){
-                          this._data.sha = val;
+                          setState(() {
+                              this._data.sha = val;
+                          });
                       },
                   ),
                   TextFormField(
