@@ -2,7 +2,7 @@
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
 #
 Pod::Spec.new do |s|
-  s.name             = 'ssl_pinning_plugin'
+  s.name             = 'sslpinning_plugin'
   s.version          = '0.0.1'
   s.summary          = 'A new flutter plugin project.'
   s.description      = <<-DESC
@@ -17,7 +17,7 @@ A new flutter plugin project.
   s.dependency 'Flutter'
   s.dependency 'CryptoSwift'
   s.dependency 'Alamofire', '~> 4.7'
-  
+
   s.ios.deployment_target = '8.0'
 end
 

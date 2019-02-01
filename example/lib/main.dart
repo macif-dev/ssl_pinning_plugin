@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ssl_pinning_plugin/ssl_pinning_plugin.dart';
+import 'package:sslpinning_plugin/sslpinning_plugin.dart';
 
 void main() => runApp(new MyApp());
 
@@ -82,94 +82,94 @@ class _MyAppState extends State<MyApp> {
     this.scaffoldContext = context;
     return new MaterialApp(
       home: new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Ssl Pinning Plugin'),
-        ),
-        body:
+          appBar: new AppBar(
+            title: new Text('Ssl Pinning Plugin'),
+          ),
+          body:
           new Builder(builder: (BuildContext context) {
             this.scaffoldContext = context;
             return Container(
-              padding: EdgeInsets.all(20.0),
-              child: Form(
-                key: this._formKey,
-                child: new ListView(
-                children: <Widget>[
-                  TextFormField(
-                    keyboardType: TextInputType.url,
-                    decoration: InputDecoration(
-                      hintText: 'https://yourdomain.com',
-                      labelText: 'URL'
-                    ),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter some url';
-                      }
-                    },
-                    onSaved: (String value) {
-                      this._data.serverURL = value;
-                    }
-                  ),
-                  DropdownButton(
-                      items: [DropdownMenuItem(child: Text(SHA.SHA1.toString()), value: SHA.SHA1,), DropdownMenuItem(child: Text(SHA.SHA256.toString()), value: SHA.SHA256,)],
-                      value: _data.sha,
-                      isExpanded: true,
-                      onChanged: (SHA val){
+                padding: EdgeInsets.all(20.0),
+                child: Form(
+                  key: this._formKey,
+                  child: new ListView(
+                    children: <Widget>[
+                      TextFormField(
+                          keyboardType: TextInputType.url,
+                          decoration: InputDecoration(
+                              hintText: 'https://yourdomain.com',
+                              labelText: 'URL'
+                          ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter some url';
+                            }
+                          },
+                          onSaved: (String value) {
+                            this._data.serverURL = value;
+                          }
+                      ),
+                      DropdownButton(
+                        items: [DropdownMenuItem(child: Text(SHA.SHA1.toString()), value: SHA.SHA1,), DropdownMenuItem(child: Text(SHA.SHA256.toString()), value: SHA.SHA256,)],
+                        value: _data.sha,
+                        isExpanded: true,
+                        onChanged: (SHA val){
                           setState(() {
-                              this._data.sha = val;
+                            this._data.sha = val;
                           });
-                      },
-                  ),
-                  TextFormField(
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                       hintText: 'OO OO OO OO OO OO OO OO OO OO',
-                       labelText: 'Fingerprint'
-                    ),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter some fingerprint';
-                      }
-                    },
-                    onSaved: (String value) {
-                      this._data.allowedSHAFingerprint = value;
-                    }
-                  ),
-                  TextFormField(
-                      keyboardType: TextInputType.number,
-                      initialValue: '60',
-                      decoration: InputDecoration(
-                          hintText: '60',
-                          labelText: 'Timeout'
+                        },
                       ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter some timeout';
-                        }
-                      },
-                      onSaved: (String value) {
-                        this._data.timeout = int.parse(value);
-                      }
-                  ),
-                  Container(
-                    child: RaisedButton(
-                      child: Text(
-                        'Check',
-                        style: TextStyle(
-                          color: Colors.white
+                      TextFormField(
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                              hintText: 'OO OO OO OO OO OO OO OO OO OO',
+                              labelText: 'Fingerprint'
+                          ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter some fingerprint';
+                            }
+                          },
+                          onSaved: (String value) {
+                            this._data.allowedSHAFingerprint = value;
+                          }
+                      ),
+                      TextFormField(
+                          keyboardType: TextInputType.number,
+                          initialValue: '60',
+                          decoration: InputDecoration(
+                              hintText: '60',
+                              labelText: 'Timeout'
+                          ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter some timeout';
+                            }
+                          },
+                          onSaved: (String value) {
+                            this._data.timeout = int.parse(value);
+                          }
+                      ),
+                      Container(
+                        child: RaisedButton(
+                          child: Text(
+                            'Check',
+                            style: TextStyle(
+                                color: Colors.white
+                            ),
+                          ),
+                          onPressed: () => submit(),
+                          color: Colors.blue,
                         ),
-                      ),
-                      onPressed: () => submit(),
-                      color: Colors.blue,
-                    ),
-                    margin: EdgeInsets.only(
-                      top: 20.0
-                    ),
-                  )
-                ],
-              ),
-            )
-          );
-        })
+                        margin: EdgeInsets.only(
+                            top: 20.0
+                        ),
+                      )
+                    ],
+                  ),
+                )
+            );
+          })
       ),
     );
   }

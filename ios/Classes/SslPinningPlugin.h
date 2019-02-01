@@ -1,4 +1,4 @@
 #import <Flutter/Flutter.h>
 
-@interface SslPinningPlugin : NSObject<FlutterPlugin>
+@interface SslpinningPlugin : NSObject<FlutterPlugin>
 @end

@@ -1,8 +1,8 @@
-#import "SslPinningPlugin.h"
-#import <ssl_pinning_plugin/ssl_pinning_plugin-Swift.h>
+#import "SslpinningPlugin.h"
+#import <sslpinning_plugin/sslpinning_plugin-Swift.h>
 
-@implementation SslPinningPlugin
+@implementation SslpinningPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
-  [SwiftSslPinningPlugin registerWithRegistrar:registrar];
+  [SwiftSslpinningPlugin registerWithRegistrar:registrar];
 }
 @end
