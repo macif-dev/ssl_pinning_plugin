@@ -2,7 +2,7 @@ name: sslpinning_plugin
 description: SSL Pinning for request HTTP.
 version: 1.0.0
 author: Macif <contact.appmobile@macif.fr>
-homepage: https://github.com/macif-dev/ssl_pinning_plugin
+homepage: https://github.com/macif-dev/sslpinning_plugin
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
