@@ -1,5 +1,5 @@
-name: sslpinning_plugin_example
-description: Demonstrates how to use the sslpinning_plugin plugin.
+name: ssl_pinning_plugin_example
+description: Demonstrates how to use the ssl_pinning_plugin plugin.
 publish_to: 'none'
 
 environment:
@@ -17,7 +17,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  sslpinning_plugin:
+  ssl_pinning_plugin:
     path: ../
 
 # For information on the generic Dart part of this file, see the

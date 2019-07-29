@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 enum SHA {SHA1, SHA256}
 
 class SslPinningPlugin {
-  static const MethodChannel _channel = const MethodChannel('sslpinning_plugin');
+  static const MethodChannel _channel = const MethodChannel('ssl_pinning_plugin');
 
   // Création d'un singleton pour le plugin
   static final SslPinningPlugin _sslPinning = new SslPinningPlugin._internal();

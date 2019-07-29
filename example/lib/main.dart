@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sslpinning_plugin/sslpinning_plugin.dart';
+import 'package:ssl_pinning_plugin/ssl_pinning_plugin.dart';
 
 void main() => runApp(new MyApp());
 

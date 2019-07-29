@@ -1,6 +1,6 @@
-name: sslpinning_plugin
+name: ssl_pinning_plugin
 description: SSL Pinning for request HTTP.
-version: 1.0.0
+version: 1.1.0
 author: Macif <contact.appmobile@macif.fr>
 homepage: https://github.com/macif-dev/sslpinning_plugin
 
@@ -22,7 +22,7 @@ flutter:
   # adding or updating assets for this project.
   plugin:
     androidPackage: com.macif.plugin.sslpinningplugin
-    pluginClass: SslpinningPlugin
+    pluginClass: SslPinningPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

@@ -3,15 +3,15 @@ import UIKit
 import CryptoSwift
 import Alamofire
 
-public class SwiftSslpinningPlugin: NSObject, FlutterPlugin {
+public class SwiftSslPinningPlugin: NSObject, FlutterPlugin {
 
     let manager = Alamofire.SessionManager.default
     var fingerprints: Array<String>?
     var flutterResult: FlutterResult?
 
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: "sslpinning_plugin", binaryMessenger: registrar.messenger())
-        let instance = SwiftSslpinningPlugin()
+        let channel = FlutterMethodChannel(name: "ssl_pinning_plugin", binaryMessenger: registrar.messenger())
+        let instance = SwiftSslPinningPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
 

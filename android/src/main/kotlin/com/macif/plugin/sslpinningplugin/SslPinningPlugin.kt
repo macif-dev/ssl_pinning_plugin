@@ -19,7 +19,7 @@ import java.security.cert.CertificateEncodingException
 
 import android.os.StrictMode
 
-class SslpinningPlugin() : MethodCallHandler {
+class SslPinningPlugin() : MethodCallHandler {
 
     companion object {
         @JvmStatic
@@ -28,8 +28,8 @@ class SslpinningPlugin() : MethodCallHandler {
             val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
             StrictMode.setThreadPolicy(policy)
 
-            val channel = MethodChannel(registrar.messenger(), "sslpinning_plugin")
-            channel.setMethodCallHandler(SslpinningPlugin())
+            val channel = MethodChannel(registrar.messenger(), "ssl_pinning_plugin")
+            channel.setMethodCallHandler(SslPinningPlugin())
         }
     }
 
