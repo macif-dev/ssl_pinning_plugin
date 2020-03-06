@@ -104,6 +104,7 @@ class _MyAppState extends State<MyApp> {
                             if (value.isEmpty) {
                               return 'Please enter some url';
                             }
+                            return null;
                           },
                           onSaved: (String value) {
                             this._data.serverURL = value;
@@ -129,6 +130,7 @@ class _MyAppState extends State<MyApp> {
                             if (value.isEmpty) {
                               return 'Please enter some fingerprint';
                             }
+                            return null;
                           },
                           onSaved: (String value) {
                             this._data.allowedSHAFingerprint = value;
@@ -145,6 +147,7 @@ class _MyAppState extends State<MyApp> {
                             if (value.isEmpty) {
                               return 'Please enter some timeout';
                             }
+                            return null;
                           },
                           onSaved: (String value) {
                             this._data.timeout = int.parse(value);

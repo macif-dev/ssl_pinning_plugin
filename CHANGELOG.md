@@ -1,3 +1,9 @@
+## [1.2.0] - 06/03/2020
+
+* Update to v2 android plugin APIs
+* Kotlin version is out of date
+* swift code version not provided
+
 ## [1.1.0] - 29/07/2019
 
 * Add compatibility with Dart2

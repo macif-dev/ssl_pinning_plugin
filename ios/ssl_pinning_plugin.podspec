@@ -19,5 +19,7 @@ A new flutter plugin project.
   s.dependency 'Alamofire', '~> 4.7'
 
   s.ios.deployment_target = '8.0'
+  s.swift_version = '4.0'
+
 end
 
