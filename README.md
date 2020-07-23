@@ -13,7 +13,7 @@ For help on editing plugin code, view the [documentation](https://flutter.io/pla
 
 ## Check
 
-###Params
+### Params
 
 - serveurUrl : `String`
 - headerHttp : `Map<String, String>`
@@ -21,11 +21,11 @@ For help on editing plugin code, view the [documentation](https://flutter.io/pla
 - allowedSHAFingerprints : `List<String>`
 - timeout : `int`
 
-###Usage :
+### Usage :
 
 `await SslPinningPlugin.check(serverURL: url, headerHttp : new Map(), sha: SHA.SHA1, allowedSHAFingerprints: new List<String>, timeout : 50);`
 
-###Return :
+### Return :
 
 - On success, return String "CONNECTION_SECURE"
 - On error, return String "CONNECTION_INSECURE"

@@ -1,3 +1,9 @@
+## [1.3.0] - 23/07/2020
+
+* Fix Kotlin version
+* Fix MissingPluginException(No implementation found for method close on channel ssl_pinning_plugin)
+* Code cleanup
+
 ## [1.2.0] - 06/03/2020
 
 * Update to v2 android plugin APIs
