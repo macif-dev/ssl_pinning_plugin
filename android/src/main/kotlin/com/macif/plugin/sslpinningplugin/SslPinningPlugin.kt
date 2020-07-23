@@ -1,12 +1,12 @@
 package com.macif.plugin.sslpinningplugin
 
 import android.os.Build
-import io.flutter.embedding.engine.plugins.FlutterPlugin;
-import io.flutter.plugin.common.MethodCall;
-import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
-import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
+import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.plugin.common.MethodCall
+import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugin.common.MethodChannel.MethodCallHandler
+import io.flutter.plugin.common.MethodChannel.Result
+import io.flutter.plugin.common.PluginRegistry.Registrar
 
 import javax.net.ssl.HttpsURLConnection
 import javax.security.cert.CertificateException
@@ -20,25 +20,37 @@ import java.security.cert.Certificate
 import java.security.cert.CertificateEncodingException
 
 import android.os.StrictMode
+
+import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 
-class SslPinningPlugin() : MethodCallHandler, FlutterPlugin {
+class SslPinningPlugin: MethodCallHandler, FlutterPlugin {
+
+    /// The MethodChannel that will the communication between Flutter and native Android
+    ///
+    /// This local reference serves to register the plugin with the Flutter Engine and unregister it
+    /// when the Flutter Engine is detached from the Activity
+    private lateinit var channel : MethodChannel
+
+    override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+        StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().detectAll().build())
+
+        channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "ssl_pinning_plugin")
+        channel.setMethodCallHandler(this);
+    }
 
     companion object {
         @JvmStatic
-        fun registerWith(registrar: Registrar): Unit {
-
-            val instance = SslPinningPlugin()
-            val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-            StrictMode.setThreadPolicy(policy)
+        fun registerWith(registrar: Registrar): {
+            // Disable the `NetworkOnMainThreadException` and make sure it is just logged.
+            StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().detectAll().build())
 
             val channel = MethodChannel(registrar.messenger(), "ssl_pinning_plugin")
-            channel.setMethodCallHandler(instance)
+            channel.setMethodCallHandler(SslPinningPlugin())
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    override fun onMethodCall(call: MethodCall, result: Result): Unit {
+    override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         try {
             when (call.method) {
                 "check" -> handleCheckEvent(call, result)
@@ -50,7 +62,6 @@ class SslPinningPlugin() : MethodCallHandler, FlutterPlugin {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     @Throws(ParseException::class)
     private fun handleCheckEvent(call: MethodCall, result: Result) {
 
@@ -69,13 +80,11 @@ class SslPinningPlugin() : MethodCallHandler, FlutterPlugin {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     fun checkConnexion(serverURL: String, allowedFingerprints: List<String>, httpHeaderArgs: Map<String, String>, timeout: Int, type: String): Boolean {
         val sha: String = this.getFingerprint(serverURL, timeout, httpHeaderArgs, type)
         return allowedFingerprints.map { fp -> fp.toUpperCase().replace("\\s".toRegex(), "") }.contains(sha)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     @Throws(IOException::class, NoSuchAlgorithmException::class, CertificateException::class, CertificateEncodingException::class)
     private fun getFingerprint(httpsURL: String, connectTimeout: Int, httpHeaderArgs: Map<String, String>, type: String): String {
 
@@ -83,7 +92,7 @@ class SslPinningPlugin() : MethodCallHandler, FlutterPlugin {
         val httpClient: HttpsURLConnection = url.openConnection() as HttpsURLConnection
 
         httpHeaderArgs.forEach { key, value -> httpClient.setRequestProperty(key, value) }
-        httpClient.connect();
+        httpClient.connect()
 
         val cert: Certificate = httpClient.getServerCertificates()[0] as Certificate
 
@@ -98,7 +107,8 @@ class SslPinningPlugin() : MethodCallHandler, FlutterPlugin {
                     .map { String.format("%02X", it) }
                     .joinToString(separator = "")
 
-    override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {}
 
-    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {}
+    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+        channel.setMethodCallHandler(null)
+    }
 }

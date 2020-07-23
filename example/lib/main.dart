@@ -35,11 +35,13 @@ class _MyAppState extends State<MyApp> {
 
     try {
       // Platform messages may fail, so we use a try/catch PlatformException.
-      String checkMsg = await SslPinningPlugin.check(serverURL: url,
+      String checkMsg = await SslPinningPlugin.check(
+          serverURL: url,
           headerHttp: headerHttp,
           sha: sha,
           allowedSHAFingerprints: allowedShA1FingerprintList,
-          timeout: timeout);
+          timeout: timeout
+      );
 
       // If the widget was removed from the tree while the asynchronous platform
       // message was in flight, we want to discard the reply rather than calling
@@ -96,9 +98,10 @@ class _MyAppState extends State<MyApp> {
                     children: <Widget>[
                       TextFormField(
                           keyboardType: TextInputType.url,
+                          initialValue: "https://flutter.dev/",
                           decoration: InputDecoration(
                               hintText: 'https://yourdomain.com',
-                              labelText: 'URL'
+                              labelText: 'URL',
                           ),
                           validator: (value) {
                             if (value.isEmpty) {
@@ -122,6 +125,7 @@ class _MyAppState extends State<MyApp> {
                       ),
                       TextFormField(
                           keyboardType: TextInputType.text,
+                          initialValue: "AC 67 AC 02 F7 5A 03 74 6B B5 08 3C 6B 9B 29 97 78 92 72 2A",
                           decoration: InputDecoration(
                               hintText: 'OO OO OO OO OO OO OO OO OO OO',
                               labelText: 'Fingerprint'
