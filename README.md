@@ -16,6 +16,7 @@ For help on editing plugin code, view the [documentation](https://flutter.io/pla
 ### Params
 
 - serveurUrl : `String`
+- httpMethod : `HttpMethod` enum [HttpMethod.Get || HttpMethod.Head] (default : HttpMethod.Get)
 - headerHttp : `Map<String, String>`
 - sha : `SHA` enum [SHA.SHA1 || SHA.SHA256]
 - allowedSHAFingerprints : `List<String>`
@@ -23,7 +24,7 @@ For help on editing plugin code, view the [documentation](https://flutter.io/pla
 
 ### Usage :
 
-`await SslPinningPlugin.check(serverURL: url, headerHttp : new Map(), sha: SHA.SHA1, allowedSHAFingerprints: new List<String>, timeout : 50);`
+`await SslPinningPlugin.check(serverURL: url, httpMethod: HttpMethod.Get, headerHttp : new Map(), sha: SHA.SHA1, allowedSHAFingerprints: new List<String>, timeout : 50);`
 
 ### Return :
 
