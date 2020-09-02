@@ -39,6 +39,7 @@ public class SwiftSslPinningPlugin: NSObject, FlutterPlugin {
     public func check(call: FlutterMethodCall, args: Dictionary<String, AnyObject>){
         // Récupération des params
         guard let _urlString = args["url"] as? String,
+              let _httpMethod = args["httpMethod"] as? String,
               let _headers = args["headers"] as? Dictionary<String, String>,
               let _fingerprints = args["fingerprints"] as? Array<String>,
               let _type = args["type"] as? String
@@ -55,7 +56,7 @@ public class SwiftSslPinningPlugin: NSObject, FlutterPlugin {
             _timeout = _timeoutArg
         }
 
-        Alamofire.request(_urlString, parameters: _headers).validate().responseJSON() { response in
+        Alamofire.request(_urlString, method: _httpMethod == "Head" ? .head : .get, parameters: _headers).validate().responseJSON() { response in
             switch response.result {
             case .success:
                 break

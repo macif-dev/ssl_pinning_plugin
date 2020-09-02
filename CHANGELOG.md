@@ -1,3 +1,7 @@
+## [1.4.0] - 02/09/2020
+
+* Add http method to verify certificate
+
 ## [1.3.0] - 23/07/2020
 
 * Fix Kotlin version

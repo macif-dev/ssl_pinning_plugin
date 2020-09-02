@@ -70,11 +70,12 @@ class SslPinningPlugin: MethodCallHandler, FlutterPlugin {
         val arguments: HashMap<String, Any> = call.arguments as HashMap<String, Any>
         val serverURL: String = arguments.get("url") as String
         val allowedFingerprints: List<String> = arguments.get("fingerprints") as List<String>
+        val httpMethod: String = arguments.get("httpMethod") as String
         val httpHeaderArgs: Map<String, String> = arguments.get("headers") as Map<String, String>
         val timeout: Int = arguments.get("timeout") as Int
         val type: String = arguments.get("type") as String
 
-        val get: Boolean = CompletableFuture.supplyAsync { this.checkConnexion(serverURL, allowedFingerprints, httpHeaderArgs, timeout, type) }.get()
+        val get: Boolean = CompletableFuture.supplyAsync { this.checkConnexion(serverURL, allowedFingerprints, httpHeaderArgs, timeout, type, httpMethod) }.get()
 
         if(get) {
             result.success("CONNECTION_SECURE")
@@ -85,17 +86,19 @@ class SslPinningPlugin: MethodCallHandler, FlutterPlugin {
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    fun checkConnexion(serverURL: String, allowedFingerprints: List<String>, httpHeaderArgs: Map<String, String>, timeout: Int, type: String): Boolean {
-        val sha: String = this.getFingerprint(serverURL, timeout, httpHeaderArgs, type)
+    fun checkConnexion(serverURL: String, allowedFingerprints: List<String>, httpHeaderArgs: Map<String, String>, timeout: Int, type: String, httpMethod: String): Boolean {
+        val sha: String = this.getFingerprint(serverURL, timeout, httpHeaderArgs, type, httpMethod)
         return allowedFingerprints.map { fp -> fp.toUpperCase().replace("\\s".toRegex(), "") }.contains(sha)
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
     @Throws(IOException::class, NoSuchAlgorithmException::class, CertificateException::class, CertificateEncodingException::class)
-    private fun getFingerprint(httpsURL: String, connectTimeout: Int, httpHeaderArgs: Map<String, String>, type: String): String {
+    private fun getFingerprint(httpsURL: String, connectTimeout: Int, httpHeaderArgs: Map<String, String>, type: String, httpMethod: String): String {
 
         val url = URL(httpsURL)
         val httpClient: HttpsURLConnection = url.openConnection() as HttpsURLConnection
+
+        if (httpMethod == "Head") httpClient.setRequestMethod("HEAD");
 
         httpHeaderArgs.forEach { key, value -> httpClient.setRequestProperty(key, value) }
         httpClient.connect()

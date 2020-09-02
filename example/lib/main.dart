@@ -11,6 +11,7 @@ class MyApp extends StatefulWidget {
 
 class _PiningSslData {
   String serverURL = '';
+  HttpMethod httpMethod = HttpMethod.Get;
   Map<String, String> headerHttp = new Map();
   String allowedSHAFingerprint = '';
   int timeout = 0;
@@ -28,7 +29,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
-  check(String url, String fingerprint, SHA sha, Map<String, String> headerHttp, int timeout) async {
+  check(String url, String fingerprint, HttpMethod httpMethod, SHA sha, Map<String, String> headerHttp, int timeout) async {
 
     List<String> allowedShA1FingerprintList = new List();
     allowedShA1FingerprintList.add(fingerprint);
@@ -38,6 +39,7 @@ class _MyAppState extends State<MyApp> {
       String checkMsg = await SslPinningPlugin.check(
           serverURL: url,
           headerHttp: headerHttp,
+          httpMethod: httpMethod,
           sha: sha,
           allowedSHAFingerprints: allowedShA1FingerprintList,
           timeout: timeout
@@ -75,7 +77,7 @@ class _MyAppState extends State<MyApp> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save(); // Save our form now.
 
-      this.check(_data.serverURL, _data.allowedSHAFingerprint, _data.sha, _data.headerHttp, _data.timeout);
+      this.check(_data.serverURL, _data.allowedSHAFingerprint, _data.httpMethod, _data.sha, _data.headerHttp, _data.timeout);
     }
   }
 
@@ -123,9 +125,19 @@ class _MyAppState extends State<MyApp> {
                           });
                         },
                       ),
+                      DropdownButton(
+                        items: [DropdownMenuItem(child: Text(HttpMethod.Get.toString()), value: HttpMethod.Get,), DropdownMenuItem(child: Text(HttpMethod.Head.toString()), value: HttpMethod.Head,)],
+                        value: _data.httpMethod,
+                        isExpanded: true,
+                        onChanged: (HttpMethod val){
+                          setState(() {
+                            this._data.httpMethod = val;
+                          });
+                        },
+                      ),
                       TextFormField(
                           keyboardType: TextInputType.text,
-                          initialValue: "AC 67 AC 02 F7 5A 03 74 6B B5 08 3C 6B 9B 29 97 78 92 72 2A",
+                          initialValue: "9B 65 59 52 DC D7 11 85 6F EF 8A 3F 69 2C 1B E2 4B E9 6A 14",
                           decoration: InputDecoration(
                               hintText: 'OO OO OO OO OO OO OO OO OO OO',
                               labelText: 'Fingerprint'
