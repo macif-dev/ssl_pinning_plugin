@@ -12,5 +12,9 @@ dependencies:
 
 flutter:
   plugin:
-    androidPackage: com.macif.plugin.sslpinningplugin
-    pluginClass: SslPinningPlugin
+    android:
+      package: com.macif.plugin.sslpinningplugin
+      pluginClass: SslPinningPlugin
+    ios:
+      pluginClass: SslPinningPlugin
+
