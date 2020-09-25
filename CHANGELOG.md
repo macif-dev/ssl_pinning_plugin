@@ -1,3 +1,7 @@
+## [1.5.0] - 25/09/2020
+
+* According the CHANGELOG of CryptoSwift, the minimum deployment target is iOS9.0
+
 ## [1.4.0] - 02/09/2020
 
 * Add http method to verify certificate
