@@ -15,13 +15,13 @@ class _PiningSslData {
   Map<String, String> headerHttp = new Map();
   String allowedSHAFingerprint = '';
   int timeout = 0;
-  SHA sha;
+  late SHA sha = SHA.SHA1;
 }
 
 class _MyAppState extends State<MyApp> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   _PiningSslData _data = new _PiningSslData();
-  BuildContext scaffoldContext;
+  late BuildContext scaffoldContext;
 
   @override
   initState() {
@@ -29,9 +29,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
-  check(String url, String fingerprint, HttpMethod httpMethod, SHA sha, Map<String, String> headerHttp, int timeout) async {
-
-    List<String> allowedShA1FingerprintList = new List();
+  check(String url, String fingerprint, HttpMethod httpMethod, SHA sha,
+      Map<String, String> headerHttp, int timeout) async {
+    List<String> allowedShA1FingerprintList = [];
     allowedShA1FingerprintList.add(fingerprint);
 
     try {
@@ -42,42 +42,38 @@ class _MyAppState extends State<MyApp> {
           httpMethod: httpMethod,
           sha: sha,
           allowedSHAFingerprints: allowedShA1FingerprintList,
-          timeout: timeout
-      );
+          timeout: timeout);
 
       // If the widget was removed from the tree while the asynchronous platform
       // message was in flight, we want to discard the reply rather than calling
       // setState to update our non-existent appearance.
-      if (!mounted)
-        return;
+      if (!mounted) return;
 
-      Scaffold.of(scaffoldContext).showSnackBar(
+      ScaffoldMessenger.of(scaffoldContext).showSnackBar(
         new SnackBar(
           content: new Text(checkMsg),
           duration: Duration(seconds: 1),
           backgroundColor: Colors.green,
         ),
-
       );
-    }catch (e){
-      Scaffold.of(scaffoldContext).showSnackBar(
+    } catch (e) {
+      ScaffoldMessenger.of(scaffoldContext).showSnackBar(
         new SnackBar(
           content: new Text(e.toString()),
           duration: Duration(seconds: 1),
           backgroundColor: Colors.red,
         ),
-
       );
     }
-
   }
 
   void submit() {
     // First validate form.
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save(); // Save our form now.
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save(); // Save our form now.
 
-      this.check(_data.serverURL, _data.allowedSHAFingerprint, _data.httpMethod, _data.sha, _data.headerHttp, _data.timeout);
+      this.check(_data.serverURL, _data.allowedSHAFingerprint, _data.httpMethod,
+          _data.sha, _data.headerHttp, _data.timeout);
     }
   }
 
@@ -89,8 +85,7 @@ class _MyAppState extends State<MyApp> {
           appBar: new AppBar(
             title: new Text('Ssl Pinning Plugin'),
           ),
-          body:
-          new Builder(builder: (BuildContext context) {
+          body: new Builder(builder: (BuildContext context) {
             this.scaffoldContext = context;
             return Container(
                 padding: EdgeInsets.all(20.0),
@@ -102,94 +97,96 @@ class _MyAppState extends State<MyApp> {
                           keyboardType: TextInputType.url,
                           initialValue: "https://flutter.dev/",
                           decoration: InputDecoration(
-                              hintText: 'https://yourdomain.com',
-                              labelText: 'URL',
+                            hintText: 'https://yourdomain.com',
+                            labelText: 'URL',
                           ),
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Please enter some url';
                             }
                             return null;
                           },
-                          onSaved: (String value) {
-                            this._data.serverURL = value;
-                          }
-                      ),
+                          onSaved: (value) => this._data.serverURL = value!),
                       DropdownButton(
-                        items: [DropdownMenuItem(child: Text(SHA.SHA1.toString()), value: SHA.SHA1,), DropdownMenuItem(child: Text(SHA.SHA256.toString()), value: SHA.SHA256,)],
+                        items: [
+                          DropdownMenuItem(
+                            child: Text(SHA.SHA1.toString()),
+                            value: SHA.SHA1,
+                          ),
+                          DropdownMenuItem(
+                            child: Text(SHA.SHA256.toString()),
+                            value: SHA.SHA256,
+                          )
+                        ],
                         value: _data.sha,
                         isExpanded: true,
-                        onChanged: (SHA val){
+                        onChanged: (SHA? val) {
                           setState(() {
-                            this._data.sha = val;
+                            this._data.sha = val!;
                           });
                         },
                       ),
                       DropdownButton(
-                        items: [DropdownMenuItem(child: Text(HttpMethod.Get.toString()), value: HttpMethod.Get,), DropdownMenuItem(child: Text(HttpMethod.Head.toString()), value: HttpMethod.Head,)],
+                        items: [
+                          DropdownMenuItem(
+                            child: Text(HttpMethod.Get.toString()),
+                            value: HttpMethod.Get,
+                          ),
+                          DropdownMenuItem(
+                            child: Text(HttpMethod.Head.toString()),
+                            value: HttpMethod.Head,
+                          )
+                        ],
                         value: _data.httpMethod,
                         isExpanded: true,
-                        onChanged: (HttpMethod val){
+                        onChanged: (HttpMethod? val) {
                           setState(() {
-                            this._data.httpMethod = val;
+                            this._data.httpMethod = val!;
                           });
                         },
                       ),
                       TextFormField(
                           keyboardType: TextInputType.text,
-                          initialValue: "9B 65 59 52 DC D7 11 85 6F EF 8A 3F 69 2C 1B E2 4B E9 6A 14",
+                          initialValue:
+                              "9D B3 FC A9 17 36 04 27 A2 82 2F BD 06 95 F1 DC 0A 00 9F 72",
                           decoration: InputDecoration(
                               hintText: 'OO OO OO OO OO OO OO OO OO OO',
-                              labelText: 'Fingerprint'
-                          ),
+                              labelText: 'Fingerprint'),
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Please enter some fingerprint';
                             }
                             return null;
                           },
-                          onSaved: (String value) {
-                            this._data.allowedSHAFingerprint = value;
-                          }
-                      ),
+                          onSaved: (value) =>
+                              this._data.allowedSHAFingerprint = value!),
                       TextFormField(
                           keyboardType: TextInputType.number,
                           initialValue: '60',
                           decoration: InputDecoration(
-                              hintText: '60',
-                              labelText: 'Timeout'
-                          ),
+                              hintText: '60', labelText: 'Timeout'),
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Please enter some timeout';
                             }
                             return null;
                           },
-                          onSaved: (String value) {
-                            this._data.timeout = int.parse(value);
-                          }
-                      ),
+                          onSaved: (value) =>
+                              this._data.timeout = int.parse(value!)),
                       Container(
-                        child: RaisedButton(
+                        child: ElevatedButton(
                           child: Text(
                             'Check',
-                            style: TextStyle(
-                                color: Colors.white
-                            ),
+                            style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () => submit(),
-                          color: Colors.blue,
                         ),
-                        margin: EdgeInsets.only(
-                            top: 20.0
-                        ),
+                        margin: EdgeInsets.only(top: 20.0),
                       )
                     ],
                   ),
-                )
-            );
-          })
-      ),
+                ));
+          })),
     );
   }
 }

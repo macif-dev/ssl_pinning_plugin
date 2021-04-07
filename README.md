@@ -15,12 +15,12 @@ For help on editing plugin code, view the [documentation](https://flutter.io/pla
 
 ### Params
 
-- serveurUrl : `String`
-- httpMethod : `HttpMethod` enum [HttpMethod.Get || HttpMethod.Head] (default : HttpMethod.Get)
-- headerHttp : `Map<String, String>`
-- sha : `SHA` enum [SHA.SHA1 || SHA.SHA256]
-- allowedSHAFingerprints : `List<String>`
-- timeout : `int`
+- serveurUrl : `String`* required
+- httpMethod : `HttpMethod` enum [HttpMethod.Get || HttpMethod.Head] (default : HttpMethod.Get) * required
+- headerHttp : `Map<String, String>` 
+- sha : `SHA` enum [SHA.SHA1 || SHA.SHA256] * required
+- allowedSHAFingerprints : `List<String>` v
+- timeout : `int` * required
 
 ### Usage :
 

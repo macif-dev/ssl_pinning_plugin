@@ -1,11 +1,11 @@
 name: ssl_pinning_plugin
 description: SSL Pinning plugin for HTTP requests (Validation by SHA-1 or SHA-256).
-version: 1.5.1
+version: 2.0.0
 homepage: https://github.com/macif-dev/sslpinning_plugin
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
-  flutter: ">=1.10.0 <2.0.0"
+  sdk: ">=2.12.0 <3.0.0"
+  flutter: ">=2.0.0"
 
 dependencies:
   flutter:

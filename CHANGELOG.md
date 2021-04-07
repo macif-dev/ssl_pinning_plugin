@@ -1,3 +1,8 @@
+## [2.0.0] - 06/04/2021
+
+* Update to Flutter 2.0 with dart 2.12.0
+* Example Android in Flutter Embedded V2
+
 ## [1.5.1] - 26/10/2020
 
 * Update pubspec.yaml for flutter 1.22.1 (adsellor)
