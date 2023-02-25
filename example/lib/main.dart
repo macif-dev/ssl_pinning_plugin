@@ -148,7 +148,7 @@ class _MyAppState extends State<MyApp> {
                       TextFormField(
                           keyboardType: TextInputType.text,
                           initialValue:
-                              "9D B3 FC A9 17 36 04 27 A2 82 2F BD 06 95 F1 DC 0A 00 9F 72",
+                              "30 23 3C 08 D3 81 53 7E D5 4C D4 02 29 41 C0 CC D0 07 77 FB",
                           decoration: InputDecoration(
                               hintText: 'OO OO OO OO OO OO OO OO OO OO',
                               labelText: 'Fingerprint'),
